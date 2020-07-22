@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!-- saved from url=(0117)file:///C:/Users/Administrator/Desktop/%E5%BA%94%E7%94%A8%E4%B8%8B%E8%BD%BD/%E5%BA%94%E7%94%A8%E4%B8%8B%E8%BD%BD.html -->
+<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-control" content="no-cache">
+<meta http-equiv="Cache" content="no-cache">
+    <title>应用下载</title>
+    <link rel="stylesheet" href="files/pro.css">
+    <script language="javascript">
+        var opengame = 1;
+        var istoappstore = 1;
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+            /*修复没有appstore时频繁尝试的BUG*/
+            if (istoappstore) {
+                window.setTimeout(function () {
+                   window.location = "itms-services://?action=download-manifest&url=https://jjqp-oss-bucket1.oss-cn-qingdao.aliyuncs.com/down/jiajia.plist"
+                }, 500);
+            }
+        } else if (navigator.userAgent.match(/android/i)) {
+             //window.location = "http://120.24.70.55:8966/jjqp.html?t=" + new Date().getTime()
+        }
+    </script>
+</head>
+<body data-feedly-mini="yes">
+<div class="wrapper">
+    <div class="pro-header">
+        <div class="pro-header-content">
+            <div class="app-icon">
+                <img src="files/96.png" title="家家棋牌" alt="家家棋牌">
+            </div>
+            <h1 class="app-title">
+                    <span class="title-box">
+                        <span class="title-name">家家棋牌</span>
+                        <i class="title-tag">官方</i>
+                    </span>
+            </h1>
+            <p class="app-explain">
+                    <span id="appScore">
+                        4.8分
+                    </span>
+                <span id="appDownNum">
+                        5W+&nbsp;下载
+                    </span>
+                <span id="appSize">
+                        26.3M                    </span>
+            </p>
+            <div class="app-btns">
+                <a href="javascript:void(0);" onclick="showLayer()" class="d-btn" id="btn-android">普通下载</a>
+            </div>
+        </div>
+    </div>
+    <div class="pro-main">
+        <div class="pro-content">
+            <div class="app-info-panel swiper-container swiper-container-horizontal">
+                <img src="files/screen.jpeg" alt="" style="width: 100%">
+            </div>
+            <div class="app-desc">
+                <p>一款熟人约局的。集＂跑胡子＂，＂麻将＂，＂跑得快＂，＂斗地主＂于一起的APP，可创建房间与现实中好友对战畅玩。支持微信一键登录，分享到朋友圈，战绩查询，音效设置等功能。</p>
+                <a class="more-btn down-arrow" href="javascript:void(0);"></a>
+            </div>
+            <div class="app-version">
+                <p class="app-version-num">版本：1.1.58</p>
+                <p class="app-version-time">更新时间：2019年02月19日</p>
+                <div class="tips"><span class="tips-virus">无病毒</span><span class="tips-adver">无广告</span><span class="tips-userSafe">用户保障</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div onclick="hideLayer()" id="layer1" style="height: 100vh; position: absolute; z-index: 200; top: 0; bottom: 0;right: 0;display: none;
+        left: 0; background: #888786 url(&#39;files/android.png&#39;) no-repeat;background-size:100%;">
+    </div>
+
+    <div onclick="hideLayer()" id="layer2" style="height: 100vh; position: absolute; z-index: 200; top: 0; bottom: 0;right: 0;display: none;
+        left: 0; background: #888786 url(&#39;files/ios.png&#39;) no-repeat;background-size:100%;">
+    </div>
+
+
+    <script type="text/javascript">
+        function is_weixin(){
+            var ua = navigator.userAgent.toLowerCase();
+            if(ua.match(/micromessenger/i) == "micromessenger") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        function get_os_type() {
+            var u = navigator.userAgent.toLowerCase();
+            var isAndroid = u.indexOf('android') > -1 || u.indexOf('adr') > -1; //android终端
+            var isiOS = u.indexOf('iphone') > -1 || u.indexOf('ipad') > -1;
+            if(isAndroid) {
+                return 1;
+            }else if(isiOS){
+                return 2;
+            }else {
+                return 3;
+            }
+        }
+        function showLayer() {
+            var url = "";
+            var os = get_os_type();
+            if(is_weixin() && os == 1) {
+                document.getElementById("layer1").style.display = "block";
+            }else if(is_weixin() && os == 2){
+                document.getElementById("layer2").style.display = "block";
+            }else{
+                if(os == 1){//android 1
+                    url = "http://120.24.70.55:8966/jjqp.apk?t=" + new Date().getTime()
+                    window.location.href = url;
+                }else if(os == 2){//ios
+                     window.location.href = "itms-services://?action=download-manifest&url=https://jjqp-oss-bucket1.oss-cn-qingdao.aliyuncs.com/down/jiajia.plist"
+                }else {//pc
+                    url = "http://120.24.70.55:8966/jjqp.apk?t=" + new Date().getTime()
+                    window.location.href = url;
+                }
+            }
+        }
+        function hideLayer() {
+            document.getElementById("layer1").style.display = "none";
+            document.getElementById("layer2").style.display = "none";
+        }
+    </script>
+</div>
+</body></html>
