@@ -27,30 +27,30 @@
 
     <dependencies>
         <!--日志过滤-->
-        <dependency>
+       <!--  <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>commons-compiler</artifactId>
-           <!--  <version>3.1.4</version>  -->
-        </dependency>
-        <dependency>
+            <version>3.1.4</version> 
+        </dependency> -->
+     <!--    <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>janino</artifactId>
             <version>3.0.12</version>
-        </dependency>
+        </dependency> -->
 
         <!-- Ip地址获取 -->
-        <dependency>
+    <!--     <dependency>
             <groupId>net.dreamlu</groupId>
             <artifactId>mica-ip2region</artifactId>
             <version>2.5.6</version>
-        </dependency>
+        </dependency> -->
 
         <!-- 令牌桶限流 -->
-        <dependency>
+<!--         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>30.1-jre</version>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -64,11 +64,11 @@
         </dependency>
 
         <!--groovy -->
-        <dependency>
+<!--         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-     <!--        <version>2.5.8</version> -->
-        </dependency>
+            <version>2.5.8</version>
+        </dependency> -->
 
         <!--mongodb -->
 <!--         <dependency>
@@ -77,24 +77,24 @@
         </dependency> -->
 
         <!-- Hutool工具包 -->
-        <dependency>
+   <!--      <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
-        </dependency>
+        </dependency> -->
 
         <!-- 阿里JSON解析器 -->
-        <dependency>
+     <!--    <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
-        </dependency>
+        </dependency> -->
 
-       <dependency>
+<!--        <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-          <!--   <version>4.1.42.Final</version> -->
-        </dependency>
+            <version>4.1.42.Final</version>
+        </dependency> -->
 
 <!--         <dependency>
             <groupId>com.google.protobuf</groupId>
@@ -202,30 +202,6 @@
 
     </dependencies>
 
-<!--     <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.yz.MyApplication</mainClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-    </build> -->
     
      <build>
         <plugins>
@@ -247,7 +223,7 @@
 	                    <manifest>
 	                        <addClasspath>true</addClasspath>
 	                        <classpathPrefix>lib/</classpathPrefix>
-	                        <mainClass>com.yz.HeroKillerServer</mainClass>
+	                        <mainClass>com.yz.GameMain</mainClass>
 	                        <useUniqueVersions>false</useUniqueVersions>
 	                    </manifest>
                    </archive>
