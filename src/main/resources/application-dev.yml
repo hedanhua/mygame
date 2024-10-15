@@ -6,9 +6,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://mysql6da0de42bd31.rds.ivolces.com/cat_danmu?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&allowMutiQueries=true
-    username: root
-    password: LG*&#(JG9%)&$@32)_8OgawKDH
+    url: jdbc:mysql://192.168.1.87:3306/cat_danmu?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&allowMutiQueries=true
+    username: admin
+    password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
     #    druid:
     initialSize: 20
@@ -27,10 +27,10 @@ spring:
     filters: stat,wall
     logSlowSql: true
   redis: 
-    database: 0
-    host: redis-shzlvjtr6pnvd77wz.redis.ivolces.com
+    database: 3
+    host: 192.168.1.87
     port: 6379
-    password: gGhuy&#OF032#0FHV22i1
+    password: 123456
     timeout: 100000
     jedis:
       pool:

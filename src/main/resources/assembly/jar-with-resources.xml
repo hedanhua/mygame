@@ -1,0 +1,31 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+
+	<id>jar-with-resources</id>
+
+	<formats>
+		<format>jar</format>
+	</formats>
+
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<fileSets>
+		<fileSet>
+			<directory>target/classes/com</directory>
+			<outputDirectory>com/</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/src/main/resources</directory>
+			<outputDirectory>/</outputDirectory>
+			<excludes>
+				<exclude>application.yml</exclude>
+				<exclude>application-dev.yml</exclude>
+				<exclude>application-test.yml</exclude>
+				<exclude>application-prod.yml</exclude>
+				<exclude>server.properties</exclude>
+			</excludes>
+		</fileSet>
+	</fileSets>
+
+</assembly>
