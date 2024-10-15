@@ -6,10 +6,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableScheduling
-@EnableTransactionManagement
 @SpringBootApplication
 public class GameMain implements ApplicationListener<ContextClosedEvent> {
 	static ApplicationContext context;

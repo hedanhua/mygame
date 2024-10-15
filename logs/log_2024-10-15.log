@@ -1,0 +1,51 @@
+2024-10-15 11:33:12.764 [main] INFO  com.yz.GameMain - Starting GameMain using Java 1.8.0_144 on DESKTOP-QCFBR4U with PID 15648 (E:\workspace\FleeDesert\target\classes started by yzll in E:\workspace\FleeDesert)
+2024-10-15 11:33:12.766 [main] INFO  com.yz.GameMain - The following profiles are active: dev
+2024-10-15 11:33:14.125 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.yz]' package. Please check your configuration.
+2024-10-15 11:33:14.745 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8000 (http)
+2024-10-15 11:33:14.756 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8000"]
+2024-10-15 11:33:14.757 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-10-15 11:33:14.757 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.52]
+2024-10-15 11:33:14.845 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-10-15 11:33:14.845 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1827 ms
+2024-10-15 11:33:15.603 [main] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 2 endpoint(s) beneath base path '/actuator'
+2024-10-15 11:33:16.303 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8000"]
+2024-10-15 11:33:16.332 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8000 (http) with context path ''
+2024-10-15 11:33:16.630 [main] INFO  com.yz.GameMain - Started GameMain in 4.27 seconds (JVM running for 5.13)
+2024-10-15 11:43:14.558 [main] INFO  com.yz.GameMain - Starting GameMain using Java 1.8.0_144 on DESKTOP-QCFBR4U with PID 28460 (E:\workspace\FleeDesert\target\classes started by yzll in E:\workspace\FleeDesert)
+2024-10-15 11:43:14.561 [main] INFO  com.yz.GameMain - The following profiles are active: dev
+2024-10-15 11:43:15.732 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.yz]' package. Please check your configuration.
+2024-10-15 11:43:16.288 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8000 (http)
+2024-10-15 11:43:16.298 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8000"]
+2024-10-15 11:43:16.299 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-10-15 11:43:16.299 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.52]
+2024-10-15 11:43:16.387 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-10-15 11:43:16.387 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1613 ms
+2024-10-15 11:43:17.037 [main] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 2 endpoint(s) beneath base path '/actuator'
+2024-10-15 11:43:17.818 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8000"]
+2024-10-15 11:43:17.840 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8000 (http) with context path ''
+2024-10-15 11:43:18.160 [main] INFO  com.yz.GameMain - Started GameMain in 3.972 seconds (JVM running for 4.705)
+2024-10-15 11:43:39.101 [main] INFO  com.yz.GameMain - Starting GameMain using Java 1.8.0_144 on DESKTOP-QCFBR4U with PID 13372 (E:\workspace\FleeDesert\target\classes started by yzll in E:\workspace\FleeDesert)
+2024-10-15 11:43:39.104 [main] INFO  com.yz.GameMain - The following profiles are active: dev
+2024-10-15 11:43:40.382 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.yz]' package. Please check your configuration.
+2024-10-15 11:43:41.131 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8000 (http)
+2024-10-15 11:43:41.141 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8000"]
+2024-10-15 11:43:41.141 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-10-15 11:43:41.142 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.52]
+2024-10-15 11:43:41.225 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-10-15 11:43:41.225 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1911 ms
+2024-10-15 11:43:41.893 [main] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 2 endpoint(s) beneath base path '/actuator'
+2024-10-15 11:43:42.535 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8000"]
+2024-10-15 11:43:42.556 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8000 (http) with context path ''
+2024-10-15 11:43:42.840 [main] INFO  com.yz.GameMain - Started GameMain in 4.103 seconds (JVM running for 4.837)
+2024-10-15 11:52:43.893 [main] INFO  com.yz.GameMain - Starting GameMain using Java 1.8.0_144 on DESKTOP-QCFBR4U with PID 27752 (E:\workspace\FleeDesert\target\classes started by yzll in E:\workspace\FleeDesert)
+2024-10-15 11:52:43.895 [main] INFO  com.yz.GameMain - The following profiles are active: dev
+2024-10-15 11:52:45.251 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8000 (http)
+2024-10-15 11:52:45.261 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8000"]
+2024-10-15 11:52:45.261 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-10-15 11:52:45.261 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.52]
+2024-10-15 11:52:45.325 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-10-15 11:52:45.325 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1230 ms
+2024-10-15 11:52:46.036 [main] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 2 endpoint(s) beneath base path '/actuator'
+2024-10-15 11:52:46.060 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8000"]
+2024-10-15 11:52:46.078 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8000 (http) with context path ''
+2024-10-15 11:52:46.094 [main] INFO  com.yz.GameMain - Started GameMain in 2.559 seconds (JVM running for 3.159)

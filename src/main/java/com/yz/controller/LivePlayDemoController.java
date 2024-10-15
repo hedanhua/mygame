@@ -62,7 +62,7 @@ public class LivePlayDemoController {
         msgTypeList.add("live_like");
         msgTypeList.add("live_comment");
         msgTypeList.add("live_gift");
-        msgTypeList.add("live_fansclub");
+      //  msgTypeList.add("live_fansclub");
 
         for (String msgType : msgTypeList) {
             boolean result = startLiveDataTask(appID, roomID, msgType);
