@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yz.mapper.PlayerMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yz.entity.PlayerDTO">
+        <id column="uid" property="uid" />
+        <result column="player_id" property="playerId" />
+        <result column="server_id" property="serverId" />
+        <result column="nickname" property="nickname" />
+        <result column="name_num" property="nameNum" />
+        <result column="head" property="head" />
+        <result column="province" property="province" />
+        <result column="open_id" property="openId" />
+        <result column="session_id" property="sessionId" />
+        <result column="skin_id" property="skinId" />
+        <result column="continue_win_num" property="continueWinNum" />
+        <result column="win_num" property="winNum" />
+        <result column="week_score" property="weekScore" />
+        <result column="score" property="score" />
+        <result column="dy_room_id" property="dyRoomId" />
+        <result column="new_day_time" property="newDayTime" />
+        <result column="new_week_time" property="newWeekTime" />
+        <result column="new_month_time" property="newMonthTime" />
+        <result column="mail_accept_time" property="mailAcceptTime" />
+        <result column="login_time" property="loginTime" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="activity_time" property="activityTime" />
+        <result column="props" property="props" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        uid, player_id, server_id, nickname,name_num, head, province, open_id, session_id,  skin_id, continue_win_num,
+         win_num, week_score, score,dy_room_id,
+         new_day_time, new_week_time, new_month_time, mail_accept_time,
+         login_time, create_time, update_time, activity_time,props
+    </sql>
+
+
+	
+
+</mapper>

@@ -27,11 +27,11 @@
 
     <dependencies>
         <!--日志过滤-->
-    <!--     <dependency>
+        <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>commons-compiler</artifactId>
-            <version>3.1.4</version> 
-        </dependency> -->
+           <!--  <version>3.1.4</version>  -->
+        </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>janino</artifactId>
@@ -39,18 +39,18 @@
         </dependency>
 
         <!-- Ip地址获取 -->
-    <!--     <dependency>
+        <dependency>
             <groupId>net.dreamlu</groupId>
             <artifactId>mica-ip2region</artifactId>
             <version>2.5.6</version>
-        </dependency> -->
+        </dependency>
 
         <!-- 令牌桶限流 -->
-<!--         <dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>30.1-jre</version>
-        </dependency> -->
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -64,11 +64,11 @@
         </dependency>
 
         <!--groovy -->
-<!--         <dependency>
+        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>2.5.8</version>
-        </dependency> -->
+     <!--        <version>2.5.8</version> -->
+        </dependency>
 
         <!--mongodb -->
 <!--         <dependency>
@@ -77,24 +77,24 @@
         </dependency> -->
 
         <!-- Hutool工具包 -->
-   <!--      <dependency>
+        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
-        </dependency> -->
+        </dependency>
 
         <!-- 阿里JSON解析器 -->
-     <!--    <dependency>
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
-        </dependency> -->
+        </dependency>
 
-<!--        <dependency>
+       <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.42.Final</version>
-        </dependency> -->
+          <!--   <version>4.1.42.Final</version> -->
+        </dependency>
 
 <!--         <dependency>
             <groupId>com.google.protobuf</groupId>
@@ -108,53 +108,53 @@
 <!--             <version>1.18.22</version> -->
         </dependency>
 
-     <!--    <dependency>
+        <dependency>
             <groupId>com.github.wechatpay-apiv3</groupId>
             <artifactId>wechatpay-java</artifactId>
             <version>0.2.7</version>
-        </dependency> -->
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <!-- swagger接口文档 -->
-<!--         <dependency>
+        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
-        </dependency> -->
-    <!--     <dependency>
+        </dependency>
+        <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>3.0.2</version>
-        </dependency> -->
+        </dependency>
         
         
          <!-- 引入MyBatisPlus的依赖 -->
-<!--         <dependency>
+        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.4</version>
-        </dependency> -->
+        </dependency>
         <!-- 数据库使用MySQL数据库 -->
-<!--         <dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.47</version>
-        </dependency> -->
+        </dependency>
         <!-- 数据库连接池 Druid -->
-<!--         <dependency>
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>1.1.14</version>
-        </dependency> -->
+        </dependency>
         
          <!-- redis -->      
-<!--         <dependency>
+        <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-        </dependency> -->
+        </dependency>
         
           <!-- aop -->      
 	      <dependency>
@@ -163,17 +163,17 @@
         </dependency>
         
           <!--雪花ID生成器 -->      
-	<!--      <dependency>
+	     <dependency>
 		    <groupId>com.fasterxml.uuid</groupId>
 		    <artifactId>java-uuid-generator</artifactId>
 		    <version>4.0.1</version>
-	    </dependency> -->
+	    </dependency>
 	    
-<!-- 	    <dependency>
+	    <dependency>
 		    <groupId>com.google.code.gson</groupId>
 		    <artifactId>gson</artifactId>
 	        <version>2.8.6</version>
-         </dependency> -->
+         </dependency>
          
          <!-- 本地依赖 -->
 		<!-- <dependency>
@@ -182,22 +182,10 @@
 			<version>1.0-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency> -->
-        <!-- MyBatisPlus代码生成器 -->
-<!--         <dependency>
-		    <groupId>com.github.davidfantasy</groupId>
-		    <artifactId>mybatis-plus-generator-ui</artifactId>
-		    <version>2.0.5</version>
-		    <scope>test</scope>
-       </dependency> -->
-    <dependency>
+         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>4.9.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.66</version>
         </dependency>
 
     </dependencies>

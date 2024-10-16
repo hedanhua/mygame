@@ -41,7 +41,6 @@ public class LivePlayDemoController {
     @PostMapping(path = "/start_game")
     public JsonResponse callContainerExample(HttpServletRequest httpRequest) {
         // 开发者可以直接通过请求头获取直播间信息,无需自行通过token置换
-
         // 应用id
         String appID = httpRequest.getHeader("X-TT-AppID");
         // 直播间id
