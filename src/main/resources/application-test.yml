@@ -6,9 +6,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/cat_danmu?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&allowMutiQueries=true
-    username: root
-    password: abc125800
+    url: jdbc:mysql://192.168.1.187:3306/cat_danmu1?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&allowMutiQueries=true
+    username: admin
+    password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
     #    druid:
     initialSize: 20
@@ -27,9 +27,9 @@ spring:
     filters: stat,wall
     logSlowSql: true
   redis: 
-    database: 7
-    host: 127.0.0.1
-    port: 6380
+    database: 3
+    host: 192.168.1.187
+    port: 6379
     password: 123456
     timeout: 100000
     jedis:
@@ -42,7 +42,7 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.yz.pojo.entity
+  typeAliasesPackage: com.yz.entity
   # 原生配置
   configuration:
     map-underscore-to-camel-case: true
@@ -53,8 +53,6 @@ mybatis-plus:
 
 #登录服地址
 loginUrl: http://127.0.0.1:10205/catDanmuLoginServer
-  
-#抖音配置  
-douyinAppid: tta757d1ea3860461110
-douyinSecret: c029aac9614e68005ff6c42ef8053b7cb62adeab
-douyinPublicSecret: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyaUMPlCnWLWlgMHANCCvlv5LtrrCt4dfFL3JkNVxgAuMC3P+U2hsqLR8ACs9RnkfOchGVSSlrcXthMKZ2GTPKwJpJEPNgZhFX1yyM3WOgfeGb8v48mMAINhiN2Eovu/EQT7dYof2mfHDZdtEo2gQ5PWOmFT8pI5IwhWY4uib+bL/Dh1aGR47WqP7UImnZobA37KYjjdVqSg7mQtMYxEgflof8pO678G4O4Uy7VTox61ae9xLgA1WAMqwIY+L/kj0VOXCXwO2+UgfJcaum1RTEJFLl+EoOJKqziB6q3hXpf69EzG0QVl6nhyWYcvYB/JP5hxp45NKjs0btphuDGI4IwIDAQAB
+
+
+

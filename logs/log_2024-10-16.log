@@ -375,3 +375,79 @@ Identify and stop the process that's listening on port 8000 or configure this ap
 2024-10-16 14:34:55.108 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8000"]
 2024-10-16 14:34:55.127 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8000 (http) with context path ''
 2024-10-16 14:34:55.402 [main] INFO  com.yz.GameMain - Started GameMain in 4.462 seconds (JVM running for 5.195)
+2024-10-16 14:52:43.547 [main] INFO  com.yz.GameMain - Starting GameMain using Java 1.8.0_144 on DESKTOP-QCFBR4U with PID 20508 (E:\workspace\FleeDesert\target\classes started by yzll in E:\workspace\FleeDesert)
+2024-10-16 14:52:43.550 [main] INFO  com.yz.GameMain - The following profiles are active: dev
+2024-10-16 14:52:45.481 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8000 (http)
+2024-10-16 14:52:45.491 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8000"]
+2024-10-16 14:52:45.492 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-10-16 14:52:45.492 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.52]
+2024-10-16 14:52:45.593 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-10-16 14:52:45.593 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1813 ms
+2024-10-16 14:52:46.726 [main] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 2 endpoint(s) beneath base path '/actuator'
+2024-10-16 14:52:47.299 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8000"]
+2024-10-16 14:52:47.317 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8000 (http) with context path ''
+2024-10-16 14:52:47.591 [main] INFO  com.yz.GameMain - Started GameMain in 4.426 seconds (JVM running for 5.169)
+2024-10-16 14:57:09.973 [main] INFO  com.yz.GameMain - Starting GameMain using Java 1.8.0_144 on DESKTOP-QCFBR4U with PID 7680 (E:\workspace\FleeDesert\target\classes started by yzll in E:\workspace\FleeDesert)
+2024-10-16 14:57:09.976 [main] INFO  com.yz.GameMain - The following profiles are active: dev
+2024-10-16 14:57:11.986 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8000 (http)
+2024-10-16 14:57:11.997 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8000"]
+2024-10-16 14:57:11.998 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-10-16 14:57:11.998 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.52]
+2024-10-16 14:57:12.090 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-10-16 14:57:12.090 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1883 ms
+2024-10-16 14:57:12.386 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'playerServiceImpl': Unsatisfied dependency expressed through field 'baseMapper'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'playerMapper' defined in file [E:\workspace\FleeDesert\target\classes\com\yz\mapper\PlayerMapper.class]: Unsatisfied dependency expressed through bean property 'sqlSessionFactory'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/baomidou/mybatisplus/autoconfigure/MybatisPlusAutoConfiguration.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to determine a suitable driver class
+2024-10-16 14:57:12.389 [main] INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2024-10-16 14:57:12.443 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2024-10-16 14:57:12.479 [main] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (the profiles dev are currently active).
+
+2024-10-16 14:58:42.802 [main] INFO  com.yz.GameMain - Starting GameMain using Java 1.8.0_144 on DESKTOP-QCFBR4U with PID 15120 (E:\workspace\FleeDesert\target\classes started by yzll in E:\workspace\FleeDesert)
+2024-10-16 14:58:42.805 [main] INFO  com.yz.GameMain - The following profiles are active: dev
+2024-10-16 14:58:44.729 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8000 (http)
+2024-10-16 14:58:44.739 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8000"]
+2024-10-16 14:58:44.740 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-10-16 14:58:44.740 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.52]
+2024-10-16 14:58:44.825 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-10-16 14:58:44.825 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1808 ms
+2024-10-16 14:58:45.111 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'playerServiceImpl': Unsatisfied dependency expressed through field 'baseMapper'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'playerMapper' defined in file [E:\workspace\FleeDesert\target\classes\com\yz\mapper\PlayerMapper.class]: Cannot resolve reference to bean 'sqlSessionTemplate' while setting bean property 'sqlSessionTemplate'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sqlSessionTemplate' defined in class path resource [com/baomidou/mybatisplus/autoconfigure/MybatisPlusAutoConfiguration.class]: Unsatisfied dependency expressed through method 'sqlSessionTemplate' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sqlSessionFactory' defined in class path resource [com/baomidou/mybatisplus/autoconfigure/MybatisPlusAutoConfiguration.class]: Unsatisfied dependency expressed through method 'sqlSessionFactory' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to determine a suitable driver class
+2024-10-16 14:58:45.115 [main] INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2024-10-16 14:58:45.171 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2024-10-16 14:58:45.195 [main] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (the profiles dev are currently active).
+
