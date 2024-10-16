@@ -451,3 +451,15 @@ Consider the following:
 	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
 	If you have database settings to be loaded from a particular profile you may need to activate it (the profiles dev are currently active).
 
+2024-10-16 15:00:34.044 [main] INFO  com.yz.GameMain - Starting GameMain using Java 1.8.0_144 on DESKTOP-QCFBR4U with PID 3488 (E:\workspace\FleeDesert\target\classes started by yzll in E:\workspace\FleeDesert)
+2024-10-16 15:00:34.047 [main] INFO  com.yz.GameMain - The following profiles are active: dev
+2024-10-16 15:00:35.990 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8000 (http)
+2024-10-16 15:00:36.001 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8000"]
+2024-10-16 15:00:36.002 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-10-16 15:00:36.002 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.52]
+2024-10-16 15:00:36.090 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-10-16 15:00:36.090 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1817 ms
+2024-10-16 15:00:37.245 [main] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 2 endpoint(s) beneath base path '/actuator'
+2024-10-16 15:00:37.855 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8000"]
+2024-10-16 15:00:37.872 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8000 (http) with context path ''
+2024-10-16 15:00:38.141 [main] INFO  com.yz.GameMain - Started GameMain in 4.478 seconds (JVM running for 5.212)
