@@ -45,7 +45,7 @@ public class AopLog {
 		HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
 		String url = request.getRequestURI();
 		String responseStr = JSONObject.toJSONString(result);
-		logger.info("url={},耗时=={}ms,请求参数={},返回参数={}", url, endTime - startTime, requestStr, responseStr);
+		logger.info("url={},time=={}ms,request={},response={}", url, endTime - startTime, requestStr, responseStr);
 		return result;
 	}
 
