@@ -66,12 +66,11 @@ public class LivePlayDemoController {
         for (String msgType : msgTypeList) {
             boolean result = startLiveDataTask(appID, roomID, msgType);
             if (result) {
-                log.info("{} 推送开启成功", msgType);
+                log.info("roomID={},msgType={} 推送开启成功", roomID, msgType);
             } else {
-                log.error("{} 推送开启失败", msgType);
+                log.error("roomID={},msgType={} 推送开启失败",roomID, msgType);
             }
         }
-
         JsonResponse response = new JsonResponse();
         response.success("开始玩法对局成功");
         return response;
