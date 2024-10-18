@@ -191,7 +191,10 @@ public class LivePlayDemoController {
         bodyMap.put("msg_id", msgID);
         bodyMap.put("msg_type", msgType);
         bodyMap.put("data", data);
-//        bodyMap.put("extra_data", "");
+        JSONObject obj = new JSONObject();
+        obj.put("rank", 1);
+        obj.put("score", 200);
+        bodyMap.put("extra_data", obj.toJSONString());
         String bodyStr = JSON.toJSONString(bodyMap);
 
         Request request = new Request.Builder()
