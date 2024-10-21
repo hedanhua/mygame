@@ -27,10 +27,10 @@ spring:
     filters: stat,wall
     logSlowSql: true
   redis: 
-    database: 3
-    host: 192.168.1.187
+    database: 0
+    host: redis-cnlfs77p1h3r51fvz.redis.ivolces.com
     port: 6379
-    password: 123456
+    password: fgd123432de@#$
     timeout: 100000
     jedis:
       pool:
