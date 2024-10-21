@@ -6,7 +6,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,17 +18,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.yz.constant.RedisConstants;
 import com.yz.model.JsonResponse;
 import com.yz.model.LiveDataModel;
 import com.yz.model.LivePlayAPIResponse;
+import com.yz.util.RedisUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import redis.clients.jedis.Tuple;
 
 /**
  * 抖音云x弹幕玩法的服务端demo展示
@@ -34,6 +41,9 @@ import okhttp3.Response;
 @RestController
 @Slf4j
 public class LivePlayDemoController {
+	
+	@Resource
+	private RedisUtils redisUtils;
 
     /**
      * 开始玩法对局，玩法开始前调用
@@ -55,7 +65,11 @@ public class LivePlayDemoController {
         log.info("appID: {}, roomID: {}, anchorOpenID: {}, avatarUrl: {}, nickName: {}", appID,
                 roomID, anchorOpenID, avatarUrl, nickName);
 
-
+        JSONObject userObj = new JSONObject();
+        userObj.put("openId", anchorOpenID);
+        userObj.put("head", avatarUrl);
+        userObj.put("name", nickName);
+        redisUtils.set(RedisConstants.user_info+anchorOpenID, userObj);
         // 调用弹幕玩法服务端API，开启直播间推送任务，开启后，开发者服务器会通过/live_data_callback接口 收到直播间玩法指令
         List<String> msgTypeList = new ArrayList<>();
         msgTypeList.add("live_like");
@@ -125,8 +139,41 @@ public class LivePlayDemoController {
      * 结束玩法
      */
     @PostMapping(path = "/finish_game")
-    public JsonResponse finishGameExample(HttpServletRequest httpRequest) {
-        // TODO: 玩法对局结束,开发者自行实现对局结束逻辑
+    public JsonResponse finishGameExample(HttpServletRequest httpRequest, @RequestBody String body) {
+    	List<String> users = new ArrayList<>();
+    	if(!StringUtils.isEmpty(body)){
+        	JSONObject obj = JSONObject.parseObject(body);
+    		String openId = obj.getString("openId");
+    		long score = obj.getLongValue("score");
+    		Double myScore = redisUtils.zscore(RedisConstants.user_score_rank, openId);
+    		if(myScore == null){
+    			myScore = (double) 0;
+    		}
+    		myScore = myScore+score;
+    		redisUtils.addRankNew(RedisConstants.user_score_rank, openId, myScore.longValue());
+    	}
+    	Set<Tuple> setAll = redisUtils.getRankByPage(RedisConstants.user_score_rank, 0, -1);
+		JSONArray rankArr = new JSONArray();
+		int index = 0;
+		if (setAll != null && !setAll.isEmpty()) {
+			for (Tuple tmp : setAll) {
+				    String openId = tmp.getElement();
+				    JSONObject rankData = new JSONObject();
+				    JSONObject userObj =  (JSONObject) redisUtils.get(RedisConstants.user_info+openId, JSONObject.class);
+					rankData.put("name", userObj.getString("name"));
+					rankData.put("openId", openId);
+					rankData.put("rank", ++index);
+					rankData.put("score", tmp.getScore());
+					rankData.put("head", userObj.getString("head"));
+					rankArr.add(rankData);
+			}
+			Map<String, String> bodyMap = new HashMap<>();
+			bodyMap.put("cmd", "rankList");
+			bodyMap.put("extra_data", rankArr.toJSONString());
+			for(String anchorOpenId:users){
+	        	pushDataToClient(anchorOpenId,  JSON.toJSONString(bodyMap));
+			}
+		}
         JsonResponse response = new JsonResponse();
         response.success("结束玩法成功");
         return response;
@@ -191,12 +238,36 @@ public class LivePlayDemoController {
         bodyMap.put("msg_id", msgID);
         bodyMap.put("msg_type", msgType);
         bodyMap.put("data", data);
-        JSONObject obj = new JSONObject();
-        obj.put("rank", 1);
-        obj.put("score", 200);
-        bodyMap.put("extra_data", obj.toJSONString());
+//        JSONObject obj = new JSONObject();
+//        obj.put("rank", 1);
+//        obj.put("score", 200);
+//        bodyMap.put("extra_data", obj.toJSONString());
         String bodyStr = JSON.toJSONString(bodyMap);
 
+        Request request = new Request.Builder()
+                .url("http://ws-push.dycloud-api.service/ws/live_interaction/push_data")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("X-TT-WS-OPENIDS", JSON.toJSONString(Arrays.asList(anchorOpenId)))
+                .post(
+                        okhttp3.RequestBody.create(
+                                MediaType.parse("application/json; charset=utf-8"),
+                                bodyStr
+                        )
+                )
+                .build();
+
+        try {
+            Response httpResponse = client.newCall(request).execute();
+            log.info("websocket http call done, response: {}", JSON.toJSONString(httpResponse));
+        } catch (IOException e) {
+            log.error("websocket http call exception, e: ", e);
+        }
+    }
+    
+    
+    private void pushDataToClient(String anchorOpenId, String bodyStr) {
+        // 这里通过HTTP POST请求将数据推送给抖音云网关,进而抖音云网关推送给主播端
+        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("http://ws-push.dycloud-api.service/ws/live_interaction/push_data")
                 .addHeader("Content-Type", "application/json")
