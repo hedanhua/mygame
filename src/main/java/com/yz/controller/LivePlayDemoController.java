@@ -167,9 +167,9 @@ public class LivePlayDemoController {
 					rankData.put("head", userObj.getString("head"));
 					rankArr.add(rankData);
 			}
-			Map<String, String> bodyMap = new HashMap<>();
+			Map<String, Object> bodyMap = new HashMap<>();
 			bodyMap.put("cmd", "rankList");
-			bodyMap.put("extra_data", rankArr.toJSONString());
+			bodyMap.put("extra_data", rankArr);
 			for(String anchorOpenId:users){
 	        	pushDataToClient(anchorOpenId,  JSON.toJSONString(bodyMap));
 			}
@@ -178,6 +178,28 @@ public class LivePlayDemoController {
         response.success("结束玩法成功");
         return response;
     }
+    
+    public static void main(String[] args) {
+    	JSONArray rankArr = new JSONArray();
+    	JSONObject rankData1 = new JSONObject();
+    	rankData1.put("name", "aaa");
+    	rankData1.put("openId", "234555e");
+    	rankData1.put("rank", 1);
+    	rankData1.put("score", 1000);
+    	rankData1.put("head","sssssssss");
+    	JSONObject rankData2 = new JSONObject();
+    	rankData2.put("name", "bbb");
+    	rankData2.put("openId", "12344");
+    	rankData2.put("rank", 2);
+    	rankData2.put("score", 2000);
+    	rankData2.put("head","ddddd");
+		rankArr.add(rankData1); 
+		rankArr.add(rankData2); 
+		Map<String, Object> bodyMap = new HashMap<>();
+		bodyMap.put("cmd", "rankList");
+		bodyMap.put("extra_data", rankArr);
+		System.out.println(JSON.toJSONString(bodyMap));
+	}
 
 
     /**
