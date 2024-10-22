@@ -142,15 +142,18 @@ public class LivePlayDemoController {
     public JsonResponse finishGameExample(HttpServletRequest httpRequest, @RequestBody String body) {
     	List<String> users = new ArrayList<>();
     	if(!StringUtils.isEmpty(body)){
-        	JSONObject obj = JSONObject.parseObject(body);
-    		String openId = obj.getString("openId");
-    		long score = obj.getLongValue("score");
-    		Double myScore = redisUtils.zscore(RedisConstants.user_score_rank, openId);
-    		if(myScore == null){
-    			myScore = (double) 0;
+    		JSONArray array = JSONArray.parseArray(body);
+    		for(int i=0;i<array.size();i++){
+    			JSONObject obj = array.getJSONObject(i);
+        		String openId = obj.getString("openId");
+        		long score = obj.getLongValue("score");
+        		Double myScore = redisUtils.zscore(RedisConstants.user_score_rank, openId);
+        		if(myScore == null){
+        			myScore = (double) 0;
+        		}
+        		myScore = myScore+score;
+        		redisUtils.addRankNew(RedisConstants.user_score_rank, openId, myScore.longValue());
     		}
-    		myScore = myScore+score;
-    		redisUtils.addRankNew(RedisConstants.user_score_rank, openId, myScore.longValue());
     	}
     	Set<Tuple> setAll = redisUtils.getRankByPage(RedisConstants.user_score_rank, 0, -1);
 		JSONArray rankArr = new JSONArray();
@@ -216,6 +219,14 @@ public class LivePlayDemoController {
         liveDataModelList.forEach(liveDataModel ->
                 pushDataToClientByDouyinCloudWebsocket(anchorOpenID, liveDataModel.getMsgID(), msgType, body)
         );
+        JSONArray array = JSONArray.parseArray(body);
+        JSONObject obj = array.getJSONObject(0);
+        JSONObject userObj = new JSONObject();
+        userObj.put("openId", anchorOpenID);
+        userObj.put("head", obj.getString("avatar_url"));
+        userObj.put("name", obj.getString("nickname"));
+        redisUtils.set(RedisConstants.user_info+anchorOpenID, userObj);
+        
         JsonResponse response = new JsonResponse();
         response.success("success");
         return response;
