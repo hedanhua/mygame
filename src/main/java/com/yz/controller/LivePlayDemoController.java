@@ -85,6 +85,26 @@ public class LivePlayDemoController {
                 log.error("roomID={},msgType={} 推送开启失败",roomID, msgType);
             }
         }
+ 	Set<Tuple> setAll = redisUtils.getRankByPage(RedisConstants.user_score_rank, 0, 99);
+		JSONArray rankArr = new JSONArray();
+		int index = 0;
+		if (setAll != null && !setAll.isEmpty()) {
+			for (Tuple tmp : setAll) {
+				    String openId = tmp.getElement();
+				    JSONObject rankData = new JSONObject();
+				    JSONObject userObj2 =  (JSONObject) redisUtils.get(RedisConstants.user_info+openId, JSONObject.class);
+					rankData.put("name", userObj2.getString("name"));
+					rankData.put("openId", openId);
+					rankData.put("rank", ++index);
+					rankData.put("score", tmp.getScore());
+					rankData.put("head", userObj2.getString("head"));
+					rankArr.add(rankData);
+			}
+			Map<String, Object> bodyMap = new HashMap<>();
+			bodyMap.put("cmd", "rankList100");
+			bodyMap.put("extra_data", rankArr);
+			pushDataToClient(anchorOpenID,  JSON.toJSONString(bodyMap));
+		}
         JsonResponse response = new JsonResponse();
         response.success("开始玩法对局成功");
         return response;
