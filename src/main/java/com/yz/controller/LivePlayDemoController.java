@@ -140,6 +140,7 @@ public class LivePlayDemoController {
      */
     @PostMapping(path = "/finish_game")
     public JsonResponse finishGameExample(HttpServletRequest httpRequest, @RequestBody String body) {
+	log.info("==========finish_game,body={}",body);
     	List<String> users = new ArrayList<>();
     	if(!StringUtils.isEmpty(body)){
     		JSONArray array = JSONArray.parseArray(body);
