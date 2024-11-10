@@ -93,6 +93,9 @@ public class LivePlayDemoController {
 				    String openId = tmp.getElement();
 				    JSONObject rankData = new JSONObject();
 				    JSONObject userObj2 =  (JSONObject) redisUtils.get(RedisConstants.user_info+openId, JSONObject.class);
+				    if(userObj2==null) {
+					continue;
+				    }
 					rankData.put("name", userObj2.getString("name"));
 					rankData.put("openId", openId);
 					rankData.put("rank", ++index);
