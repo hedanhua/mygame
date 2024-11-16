@@ -94,14 +94,12 @@ public class LivePlayDemoController {
 				    String openId = tmp.getElement();
 				    JSONObject rankData = new JSONObject();
 				    JSONObject userObj2 =  (JSONObject) redisUtils.get(RedisConstants.user_info+openId, JSONObject.class);
-				    if(userObj2==null) {
-					continue;
-				    }
-					rankData.put("name", userObj2.getString("name"));
+
+					rankData.put("name", userObj2!=null ? userObj2.getString("name"): openId);
 					rankData.put("openId", openId);
 					rankData.put("rank", ++index);
 					rankData.put("score", tmp.getScore());
-					rankData.put("head", userObj2.getString("head"));
+					rankData.put("head", userObj2!=null ?userObj2.getString("head"):openId);
 					rankArr.add(rankData);
 			}
 			Map<String, Object> bodyMap = new HashMap<>();
