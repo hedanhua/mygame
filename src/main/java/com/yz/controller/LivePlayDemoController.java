@@ -196,7 +196,7 @@ public class LivePlayDemoController {
 			}
 			Map<String, Object> bodyMap = new HashMap<>();
 			bodyMap.put("cmd", "rankList");
-			bodyMap.put("extra_data", rankArr);
+			bodyMap.put("extra_data", JSON.toJSONString(rankArr));
 			for(String anchorOpenId:users){
 	        	  pushDataToClient(anchorOpenId,  JSON.toJSONString(bodyMap));
 			}
