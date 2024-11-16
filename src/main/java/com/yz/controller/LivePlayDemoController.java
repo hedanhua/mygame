@@ -88,6 +88,7 @@ public class LivePlayDemoController {
  	Set<Tuple> setAll = redisUtils.getRankByPage(RedisConstants.user_score_rank, 0, 99);
 		JSONArray rankArr = new JSONArray();
 		int index = 0;
+		String extra_data = "";
 		if (setAll != null && !setAll.isEmpty()) {
 			for (Tuple tmp : setAll) {
 				    String openId = tmp.getElement();
@@ -106,10 +107,11 @@ public class LivePlayDemoController {
 			Map<String, Object> bodyMap = new HashMap<>();
 			bodyMap.put("cmd", "rankList100");
 			bodyMap.put("extra_data", rankArr);
+			extra_data=JSON.toJSONString(rankArr);
 			pushDataToClient(anchorOpenID,  JSON.toJSONString(bodyMap));
 		}
         JsonResponse response = new JsonResponse();
-        response.success("开始玩法对局成功");
+        response.success("开始玩法对局成功",extra_data);
         return response;
     }
 
@@ -182,6 +184,7 @@ public class LivePlayDemoController {
     	Set<Tuple> setAll = redisUtils.getRankByPage(RedisConstants.user_score_rank, 0, -1);
 		JSONArray rankArr = new JSONArray();
 		int index = 0;
+		String extra_data = "";
 		if (setAll != null && !setAll.isEmpty()) {
 			for (Tuple tmp : setAll) {
 				    String openId = tmp.getElement();
@@ -197,12 +200,13 @@ public class LivePlayDemoController {
 			Map<String, Object> bodyMap = new HashMap<>();
 			bodyMap.put("cmd", "rankList");
 			bodyMap.put("extra_data", JSON.toJSONString(rankArr));
+			extra_data =  JSON.toJSONString(rankArr);
 			for(String anchorOpenId:users){
 	        	  pushDataToClient(anchorOpenId,  JSON.toJSONString(bodyMap));
 			}
 		}
         JsonResponse response = new JsonResponse();
-        response.success("结束玩法成功");
+        response.success("结束玩法成功",extra_data);
         return response;
     }
     

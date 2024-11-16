@@ -10,11 +10,19 @@ public class JsonResponse {
     private Integer errNo;
     private String errMsg;
     private String data;
+    private String extra_data;
 
     public void success(String data) {
         this.errMsg = "success";
         this.errNo = 0;
         this.data = data;
+    }
+    
+    public void success(String data,String extra_data){
+        this.errMsg = "success";
+        this.errNo = 0;
+        this.data = data;
+        this.extra_data = extra_data;
     }
 
     public void failure(String errMsg) {
