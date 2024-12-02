@@ -28,7 +28,7 @@ spring:
     logSlowSql: true
   redis: 
     database: 0
-    host: redis-cnlfys9zazipxwmna.redis.volces.com
+    host: redis-cnlfys9zazipxwmna.redis.ivolces.com
     port: 6379
     password: fgd123432de@#$
     timeout: 100000
