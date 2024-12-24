@@ -417,20 +417,22 @@ public class LivePlayDemoController {
     	       JSONObject roundObj =  roundMap.get(roomID);
     	       syncEndStatus(roundObj.getString("appID"),roundObj.getString("roomID"),
     		       roundObj.getString("anchor_open_id​"),result);
-    	       roundMap.remove(roundObj.getString("roomID"));
+    	       roundMap.remove(roomID);
     		//JSONArray array = JSONArray.parseArray(body);
     	       JSONArray array = data.getJSONArray("scores");
-    		for(int i=0;i<array.size();i++){
-    			JSONObject obj = array.getJSONObject(i);
-        		String openId = obj.getString("openId");
-        		long score = obj.getLongValue("score");
-        		Double myScore = redisUtils.zscore(RedisConstants.user_score_rank, openId);
+    	       if(array!=null) {
+       		    for(int i=0;i<array.size();i++){
+			JSONObject obj = array.getJSONObject(i);
+    		         String openId = obj.getString("openId");
+    		          long score = obj.getLongValue("score");
+    		         Double myScore = redisUtils.zscore(RedisConstants.user_score_rank, openId);
         		if(myScore == null){
         			myScore = (double) 0;
         		}
         		myScore = myScore+score;
         		redisUtils.addRankNew(RedisConstants.user_score_rank, openId, myScore.longValue());
-    		}
+		   }
+    	       }
     	}
     	Set<Tuple> setAll = redisUtils.getRankByPage(RedisConstants.user_score_rank, 0, -1);
 		JSONArray rankArr = new JSONArray();
