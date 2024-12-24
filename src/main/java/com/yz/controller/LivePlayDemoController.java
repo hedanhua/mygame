@@ -44,12 +44,16 @@ public class LivePlayDemoController {
 	
 	@Resource
 	private RedisUtils redisUtils;
+	
+	private Map<String ,JSONObject> roundMap = new HashMap();
+	
+
 
     /**
      * 开始玩法对局，玩法开始前调用
      */
     @PostMapping(path = "/start_game")
-    public JsonResponse callContainerExample(HttpServletRequest httpRequest) {
+    public JsonResponse start_game(HttpServletRequest httpRequest) {
         // 开发者可以直接通过请求头获取直播间信息,无需自行通过token置换
         // 应用id
         String appID = httpRequest.getHeader("X-TT-AppID");
@@ -108,11 +112,199 @@ public class LivePlayDemoController {
 			extra_data=JSON.toJSONString(rankArr);
 			pushDataToClient(anchorOpenID,  JSON.toJSONString(bodyMap));
 		}
+		
+	syncStartStatus(appID,roomID,anchorOpenID);
         JsonResponse response = new JsonResponse();
         response.success("开始玩法对局成功",extra_data);
         return response;
     }
-
+    
+    /**
+     *同步对局开始状态​ 
+     *
+     */ 
+    private boolean syncStartStatus(String appID, String roomID, String anchorOpenId​) {
+	 JSONObject obj =  roundMap.get(roomID);
+	 Long roundId = obj.getLongValue("roundId");
+	 if(roundId == null) {
+	    roundId=(long) 1;
+	 }else {
+	    roundId+=1;
+	 }
+	 long time = System.currentTimeMillis()/1000;
+	 obj.put("roundId", roundId);
+	 obj.put("appID", appID);
+	 obj.put("roomID", roomID);
+	 obj.put("startTime", time);
+	 obj.put("anchor_open_id​", anchorOpenId​);
+	 obj.put("round_status​", 1);
+	 roundMap.put(roomID,obj);
+	 OkHttpClient client = new OkHttpClient();
+	        String body = new JSONObject()
+	                .fluentPut("​room_id​​", roomID)
+	                .fluentPut("​app_id​", appID)
+	                .fluentPut("​anchor_open_id​", anchorOpenId​)
+	                .fluentPut("​​round_id​​", roundId)
+	                .fluentPut("​start_time​​", time)
+	                .fluentPut("​​status​​", 1)
+	                .toString();
+	        Request request = new Request.Builder()
+	                .url("​http://webcast.bytedance.com/api/gaming_con/round/sync_status") // 内网专线访问小玩法openAPI,无需https协议
+	                .addHeader("Content-Type", "application/json") // 无需维护access_token
+	                .post(
+	                        okhttp3.RequestBody.create(
+	                                MediaType.get("application/json; charset=utf-8"),
+	                                body
+	                        )
+	                )
+	                .build();
+	        
+	        try {
+	            Response httpResponse = client.newCall(request).execute();
+	            if (httpResponse.code() != 200) {
+	                log.error("开启​同步对局状态​失败,http访问非200");
+	                return false;
+	            }
+	            JSONObject result =JSON.parseObject(httpResponse.body().string());
+	    	    if(result.getIntValue("​errcode")!=0){
+	                log.error("开启​同步对局状态​失败，错误信息: {}", result.getString("​​errmsg​"));
+	                return false;
+	            }
+	        } catch (IOException e) {
+	            log.error("开启​同步对局状态​异常,e: {}", e.getMessage(), e);
+	            return false;
+	        }
+	        return true;
+    }
+    
+    
+    /**
+     *同步对局结束状态​ 
+     *
+     */ 
+    private boolean syncEndStatus(String appID, String roomID, String anchorOpenId​, int result) {
+	JSONObject obj =  roundMap.get(roomID);
+	Long roundId = obj.getLongValue("roundId");
+	if(roundId == null) {
+	    roundId=(long) 1;
+	}
+	 long startTime =  obj.getLongValue("startTime");
+	 long time =System.currentTimeMillis()/1000;
+	 JSONArray overDataArray =new JSONArray();
+	 JSONObject overData=new JSONObject();
+	 //0=平局1=胜利、2=失败、
+	 if(result==0) {
+		 JSONObject overDataObj1 =new JSONObject();
+		 overDataObj1.put("group_id", "1");
+		 overDataObj1.put("result", "3");
+		 overDataArray.add(overDataObj1);
+		 JSONObject overDataObj2 =new JSONObject();
+		 overDataObj2.put("group_id", "2");
+		 overDataObj2.put("result", "3");
+		 overDataArray.add(overDataObj2);
+	 }else if(result==1) {
+	         JSONObject overDataObj1 =new JSONObject();
+		 overDataObj1.put("group_id", "1");
+		 overDataObj1.put("result", "1");
+		 overDataArray.add(overDataObj1);
+		 JSONObject overDataObj2 =new JSONObject();
+		 overDataObj2.put("group_id", "2");
+		 overDataObj2.put("result", "2");
+		 overDataArray.add(overDataObj2);
+	 }else if(result==2) {
+	                 JSONObject overDataObj1 =new JSONObject();
+	  		 overDataObj1.put("group_id", "1");
+	  		 overDataObj1.put("result", "2");
+	  		 overDataArray.add(overDataObj1);
+	  		 JSONObject overDataObj2 =new JSONObject();
+	  		 overDataObj2.put("group_id", "2");
+	  		 overDataObj2.put("result", "1");
+	  		 overDataArray.add(overDataObj2);
+	 }
+	 overData.put("group_result_list", overDataArray);
+	 OkHttpClient client = new OkHttpClient();
+	        String body = new JSONObject()
+	                .fluentPut("​room_id​​", roomID)
+	                .fluentPut("​app_id​", appID)
+	                .fluentPut("​anchor_open_id​", anchorOpenId​)
+	                .fluentPut("​​round_id​​", roundId)
+	                .fluentPut("​​​start_time​​​​", startTime)
+	                .fluentPut("​​end_time​​​", time)
+	                .fluentPut("​​status​​", 2)
+	                .fluentPut("​group_result_list​​", overData)
+	                .toString();
+	        Request request = new Request.Builder()
+	                .url("​http://webcast.bytedance.com/api/gaming_con/round/sync_status") // 内网专线访问小玩法openAPI,无需https协议
+	                .addHeader("Content-Type", "application/json") // 无需维护access_token
+	                .post(
+	                        okhttp3.RequestBody.create(
+	                                MediaType.get("application/json; charset=utf-8"),
+	                                body
+	                        )
+	                )
+	                .build();
+	        
+	        try {
+	            Response httpResponse = client.newCall(request).execute();
+	            if (httpResponse.code() != 200) {
+	                log.error("结束​同步对局状态​失败,http访问非200");
+	                return false;
+	            }
+	            JSONObject result2 =JSON.parseObject(httpResponse.body().string());
+	    	    if(result2.getIntValue("​errcode")!=0){
+	                log.error("结束同步对局状态​失败，错误信息: {}", result2.getString("​​errmsg​"));
+	                return false;
+	            }
+	        } catch (IOException e) {
+	            log.error("结束同步对局状态​异常,e: {}", e.getMessage(), e);
+	            return false;
+	        }
+	        return true;
+    }
+    
+    //上报阵营数据​
+    public boolean uploadUserGroupInfo( String roomID, String openId,String groupId) {
+	JSONObject obj =  roundMap.get(roomID);
+	Long roundId = obj.getLongValue("roundId");
+	String appID = obj.getString("appID");
+	 OkHttpClient client = new OkHttpClient();
+	        String body = new JSONObject()
+	                .fluentPut("room_id​", roomID)
+	                .fluentPut("​app_id​", appID)
+	                .fluentPut("​open_id​", openId)
+	                .fluentPut("​​round_id​​", roundId)
+	                .fluentPut("​​group_id​​", groupId)
+	                .toString();
+	        Request request = new Request.Builder()
+	                .url("​http://webcast.bytedance.com/api/gaming_con/round/upload_user_group_info") // 内网专线访问小玩法openAPI,无需https协议
+	                .addHeader("Content-Type", "application/json") // 无需维护access_token
+	                .post(
+	                        okhttp3.RequestBody.create(
+	                                MediaType.get("application/json; charset=utf-8"),
+	                                body
+	                        )
+	                )
+	                .build();
+	        try {
+	            Response httpResponse = client.newCall(request).execute();
+	            if (httpResponse.code() != 200) {
+	                log.error("上报阵营数据失败,http访问非200");
+	                return false;
+	            }
+	            JSONObject result =JSON.parseObject(httpResponse.body().string());
+	    	    if(result.getIntValue("​errcode")!=0){
+	                log.error("上报阵营数据失败，错误信息: {}", result.getString("​​errmsg​"));
+	                return false;
+	            }
+	        } catch (IOException e) {
+	            log.error("上报阵营数据异常,e: {}", e.getMessage(), e);
+	            return false;
+	        }
+	        return true;
+    }
+    
+    
+    
     /**
      * startLiveDataTask: 开启推送任务：<a href="https://developer.open-douyin.com/docs/resource/zh-CN/interaction/develop/server/live/danmu#%E5%90%AF%E5%8A%A8%E4%BB%BB%E5%8A%A1">...</a>
      *
@@ -157,16 +349,77 @@ public class LivePlayDemoController {
         }
         return true;
     }
+    
+    public static void main(String[] args) {
+	         JSONObject obj =new JSONObject();
+        	JSONArray rankArr = new JSONArray();
+        	JSONObject rankData1 = new JSONObject();
+        	rankData1.put("openId", "1");
+        	rankData1.put("score", 1000);
+        	JSONObject rankData2 = new JSONObject();
+        	rankData2.put("openId", "2");
+        	rankData2.put("score", 2000);
+		rankArr.add(rankData1); 
+		rankArr.add(rankData2); 
+		
+		obj.put("result", 1);
+		obj.put("scores", rankArr);
+		System.out.println(JSON.toJSONString(obj));
+	}
+
+
+    /**
+     * 获取阵营数据
+     */
+    @PostMapping(path = "/getGroupData")
+    public JsonResponse getGroupData(HttpServletRequest httpRequest, @RequestBody String body) {
+	    log.info("==========getGroupData,body={}",body);
+	    JSONObject data = JSONObject.parseObject(body);
+	    String app_id = data.getString("​app_id​");
+	    String room_id​ = data.getString("​room_id​");
+	    String open_id = data.getString("open_id");
+	    JsonResponse response = new JsonResponse();
+	    
+	    JSONObject obj =  roundMap.get(room_id​);
+	    Long roundId = (long) 0;
+	    String group_id = "";
+	    int round_status=2;
+	    int user_group_status​=0;
+	    if(obj!=null) {
+		    roundId = obj.getLongValue("roundId");
+		    group_id = obj.getString("group_id");
+		    round_status=1;
+		    JSONArray array = obj.getJSONArray("openIds");
+		    if(array.contains(open_id)) {
+			user_group_status​=1;
+		    }
+	    }
+	    JSONObject jsonbject =new JSONObject();
+	    jsonbject.put("round_id", roundId);
+	    jsonbject.put("round_status", round_status);
+	    jsonbject.put("group_id​", group_id);
+	    jsonbject.put("user_group_status​​", user_group_status​);
+	    response.success(jsonbject,null);
+	    return response;
+    }
 
     /**
      * 结束玩法
      */
     @PostMapping(path = "/finish_game")
-    public JsonResponse finishGameExample(HttpServletRequest httpRequest, @RequestBody String body) {
-	log.info("==========finish_game,body={}",body);
+    public JsonResponse finishGame(HttpServletRequest httpRequest, @RequestBody String body) {
+	String roomID = httpRequest.getHeader("X-Room-ID");
+	log.info("==========finish_game,roomID={},body={}",roomID,body);
     	List<String> users = new ArrayList<>();
     	if(!StringUtils.isEmpty(body)){
-    		JSONArray array = JSONArray.parseArray(body);
+    	       JSONObject data = JSONObject.parseObject(body);
+    	       int result = data.getIntValue("result");
+    	       JSONObject roundObj =  roundMap.get(roomID);
+    	       syncEndStatus(roundObj.getString("appID"),roundObj.getString("roomID"),
+    		       roundObj.getString("anchor_open_id​"),result);
+    	       roundMap.remove(roundObj.getString("roomID"));
+    		//JSONArray array = JSONArray.parseArray(body);
+    	       JSONArray array = data.getJSONArray("scores");
     		for(int i=0;i<array.size();i++){
     			JSONObject obj = array.getJSONObject(i);
         		String openId = obj.getString("openId");
@@ -208,28 +461,7 @@ public class LivePlayDemoController {
         return response;
     }
     
-    public static void main(String[] args) {
-    	JSONArray rankArr = new JSONArray();
-    	JSONObject rankData1 = new JSONObject();
-    	rankData1.put("name", "aaa");
-    	rankData1.put("openId", "234555e");
-    	rankData1.put("rank", 1);
-    	rankData1.put("score", 1000);
-    	rankData1.put("head","sssssssss");
-    	JSONObject rankData2 = new JSONObject();
-    	rankData2.put("name", "bbb");
-    	rankData2.put("openId", "12344");
-    	rankData2.put("rank", 2);
-    	rankData2.put("score", 2000);
-    	rankData2.put("head","ddddd");
-		rankArr.add(rankData1); 
-		rankArr.add(rankData2); 
-		Map<String, Object> bodyMap = new HashMap<>();
-		bodyMap.put("cmd", "rankList");
-		bodyMap.put("extra_data", rankArr);
-		System.out.println(JSON.toJSONString(bodyMap));
-	}
-
+   
 
     /**
      * 通过抖音云服务接受直播间数据，内网专线加速+免域名备案
@@ -240,22 +472,79 @@ public class LivePlayDemoController {
     public JsonResponse liveDataCallbackExample(
             @RequestHeader("X-Anchor-OpenID") String anchorOpenID,
             @RequestHeader("x-msg-type") String msgType,
+            @RequestHeader("x-roomid") String roomID,
             @RequestBody String body) {
-        List<LiveDataModel> liveDataModelList = JSON.parseArray(body, LiveDataModel.class);
-        liveDataModelList.forEach(liveDataModel ->
-                pushDataToClientByDouyinCloudWebsocket(anchorOpenID, liveDataModel.getMsgID(), msgType, body)
-        );
-        JSONArray array = JSONArray.parseArray(body);
-        JSONObject obj = array.getJSONObject(0);
-        JSONObject userObj = new JSONObject();
-        userObj.put("openId", anchorOpenID);
-        userObj.put("head", obj.getString("avatar_url"));
-        userObj.put("name", obj.getString("nickname"));
-        redisUtils.set(RedisConstants.user_info+anchorOpenID, userObj);
-        
-        JsonResponse response = new JsonResponse();
-        response.success("success");
-        return response;
+	if(!msgType.equals("user_group_push")) {
+	        List<LiveDataModel> liveDataModelList = JSON.parseArray(body, LiveDataModel.class);
+	        liveDataModelList.forEach(liveDataModel ->
+	                pushDataToClientByDouyinCloudWebsocket(anchorOpenID, liveDataModel.getMsgID(), msgType, body)
+	        );
+	        JSONArray array = JSONArray.parseArray(body);
+	        JSONObject obj = array.getJSONObject(0);
+	        JSONObject userObj = new JSONObject();
+	        userObj.put("openId", anchorOpenID);
+	        userObj.put("head", obj.getString("avatar_url"));
+	        userObj.put("name", obj.getString("nickname"));
+	        redisUtils.set(RedisConstants.user_info+anchorOpenID, userObj);
+	        
+	        if(msgType.equals("live_comment")) {
+	            JSONObject round =  roundMap.get(roomID);
+		    JSONArray roundarray =new JSONArray();
+		    if(round!=null) {
+			roundarray = obj.getJSONArray("openIds");
+		    }
+		    if(!roundarray.contains(anchorOpenID)) {
+		                JSONArray array2 = JSONArray.parseArray(body);
+				for (int i = 0; i < array2.size(); i++) {
+				        JSONObject obj2= array2.getJSONObject(i);
+					String content = obj2.getString("content");
+					if(content.trim().equals("1")) {
+					      roundarray.add(anchorOpenID);
+					      obj.put("openIds", array);
+					      roundMap.put(roomID, round);
+					      uploadUserGroupInfo(roomID, anchorOpenID, "1");
+					      break;
+					}else if(content.trim().equals("2")) {
+					      roundarray.add(anchorOpenID);
+					      obj.put("openIds", array);
+					      roundMap.put(roomID, round);
+					      uploadUserGroupInfo(roomID, anchorOpenID, "2");
+					      break;
+					}
+				}
+		    }
+	        }
+	    
+	        JsonResponse response = new JsonResponse();
+	        response.success("success");
+	        return response;
+	}else {
+	    JSONObject data = JSONObject.parseObject(body);
+	    //String app_id = data.getString("​app_id​");
+	    String room_id​ = data.getString("​room_id​");
+	    String open_id = data.getString("open_id");
+	    String group_id = data.getString("group_id");
+	    log.info("用户ID=={}，加入阵营={}，room_id​={}",open_id,group_id,room_id​);
+	    JsonResponse response = new JsonResponse();
+	    JSONObject obj =  roundMap.get(room_id​);
+	    Long roundId = (long) 0;
+	    int round_status=2;
+	    JSONArray array =new JSONArray();
+	    if(obj!=null) {
+		    roundId = obj.getLongValue("roundId");
+		    round_status=1;
+		    array = obj.getJSONArray("openIds");
+	    }
+	    array.add(open_id);
+	    obj.put("openIds", array);
+	    roundMap.put(room_id​, obj);
+	    JSONObject jsonbject =new JSONObject();
+	    jsonbject.put("round_id", roundId);
+	    jsonbject.put("round_status", round_status);
+	    jsonbject.put("group_id", group_id);
+	    response.success(jsonbject,null);
+	    return response;
+	}
     }
 
 

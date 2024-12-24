@@ -9,7 +9,7 @@ public class JsonResponse {
     @JsonFormat
     private Integer errNo;
     private String errMsg;
-    private String data;
+    private Object data;
     private String extra_data;
 
     public void success(String data) {
@@ -18,7 +18,7 @@ public class JsonResponse {
         this.data = data;
     }
     
-    public void success(String data,String extra_data){
+    public void success(Object data,String extra_data){
         this.errMsg = "success";
         this.errNo = 0;
         this.data = data;
