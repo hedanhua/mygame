@@ -136,8 +136,8 @@ public class LivePlayDemoController {
 	 obj.put("appID", appID);
 	 obj.put("roomID", roomID);
 	 obj.put("startTime", time);
-	 obj.put("anchor_open_id​", anchorOpenId​);
-	 obj.put("round_status​", 1);
+	 obj.put("anchorOpenId​", anchorOpenId​);
+	 obj.put("roundStatus​", 1);
 	 roundMap.put(roomID,obj);
 	 OkHttpClient client = new OkHttpClient();
 	        String body = new JSONObject()
@@ -148,6 +148,7 @@ public class LivePlayDemoController {
 	                .fluentPut("​start_time​​", time)
 	                .fluentPut("​​status​​", 1)
 	                .toString();
+	        log.info("==============syncStartStatus,body={}",body);
 	        Request request = new Request.Builder()
 	                .url("​http://webcast.bytedance.com/api/gaming_con/round/sync_status") // 内网专线访问小玩法openAPI,无需https协议
 	                .addHeader("Content-Type", "application/json") // 无需维护access_token
@@ -233,6 +234,7 @@ public class LivePlayDemoController {
 	                .fluentPut("​​status​​", 2)
 	                .fluentPut("​group_result_list​​", overData)
 	                .toString();
+	        log.info("==============syncEndStatus,body={}",body);
 	        Request request = new Request.Builder()
 	                .url("​http://webcast.bytedance.com/api/gaming_con/round/sync_status") // 内网专线访问小玩法openAPI,无需https协议
 	                .addHeader("Content-Type", "application/json") // 无需维护access_token
@@ -387,10 +389,19 @@ public class LivePlayDemoController {
 	    int user_group_status​=0;
 	    if(obj!=null) {
 		    roundId = obj.getLongValue("roundId");
-		    group_id = obj.getString("group_id");
 		    round_status=1;
 		    JSONArray array = obj.getJSONArray("openIds");
-		    if(array.contains(open_id)) {
+		    boolean flag= false;
+		    for(int i=0;i<array.size();i++) {
+			JSONObject openObj = array.getJSONObject(i);
+			String openId = openObj.getString("openId");
+			if(openId.equals(open_id)) {
+			    group_id = openObj.getString("groupId");
+			    flag =true;
+			    break;
+			}
+		    }
+		    if(flag) {
 			user_group_status​=1;
 		    }
 	    }
@@ -416,7 +427,7 @@ public class LivePlayDemoController {
     	       int result = data.getIntValue("result");
     	       JSONObject roundObj =  roundMap.get(roomID);
     	       syncEndStatus(roundObj.getString("appID"),roundObj.getString("roomID"),
-    		       roundObj.getString("anchor_open_id​"),result);
+    		       roundObj.getString("anchorOpenId​"),result);
     	       roundMap.remove(roomID);
     		//JSONArray array = JSONArray.parseArray(body);
     	       JSONArray array = data.getJSONArray("scores");
@@ -492,23 +503,43 @@ public class LivePlayDemoController {
 	        if(msgType.equals("live_comment")) {
 	            JSONObject round =  roundMap.get(roomID);
 		    JSONArray roundarray =new JSONArray();
+		    boolean flag =false;
 		    if(round!=null) {
-			roundarray = obj.getJSONArray("openIds");
+			roundarray = round.getJSONArray("openIds");
+			if(roundarray!=null) {
+			    for(int i=0;i<roundarray.size();i++) {
+				JSONObject openObj = roundarray.getJSONObject(i);
+				String openId = openObj.getString("openId");
+				if(openId.equals(anchorOpenID)) {
+				    flag =true;
+				    break;
+				}
+			    }
+			}else {
+			    roundarray =new JSONArray();
+			}
 		    }
-		    if(!roundarray.contains(anchorOpenID)) {
+		    if(!flag) {
 		                JSONArray array2 = JSONArray.parseArray(body);
 				for (int i = 0; i < array2.size(); i++) {
 				        JSONObject obj2= array2.getJSONObject(i);
 					String content = obj2.getString("content");
 					if(content.trim().equals("1")) {
-					      roundarray.add(anchorOpenID);
-					      obj.put("openIds", array);
+					      JSONObject openObj =new JSONObject();
+					      openObj.put("openId", anchorOpenID);
+					      openObj.put("groupId", "1");
+					      roundarray.add(openObj);
+					      round.put("openIds", roundarray);
 					      roundMap.put(roomID, round);
 					      uploadUserGroupInfo(roomID, anchorOpenID, "1");
 					      break;
 					}else if(content.trim().equals("2")) {
-					      roundarray.add(anchorOpenID);
-					      obj.put("openIds", array);
+					      JSONObject openObj =new JSONObject();
+					      openObj.put("openId", anchorOpenID);
+					      openObj.put("groupId", "21");
+					      roundarray.add(openObj);
+					      round.put("openIds", roundarray);
+					      round.put("groupId", "2");
 					      roundMap.put(roomID, round);
 					      uploadUserGroupInfo(roomID, anchorOpenID, "2");
 					      break;
@@ -531,14 +562,20 @@ public class LivePlayDemoController {
 	    JSONObject obj =  roundMap.get(room_id​);
 	    Long roundId = (long) 0;
 	    int round_status=2;
-	    JSONArray array =new JSONArray();
+	    JSONArray array = new JSONArray();
 	    if(obj!=null) {
 		    roundId = obj.getLongValue("roundId");
 		    round_status=1;
 		    array = obj.getJSONArray("openIds");
+		    if(array==null) {
+			array =new JSONArray();
+		    }
+		     JSONObject openObj =new JSONObject();
+		      openObj.put("openId", open_id);
+		      openObj.put("groupId", group_id);
+		      array.add(openObj);
+		      obj.put("openIds", array);
 	    }
-	    array.add(open_id);
-	    obj.put("openIds", array);
 	    roundMap.put(room_id​, obj);
 	    JSONObject jsonbject =new JSONObject();
 	    jsonbject.put("round_id", roundId);
