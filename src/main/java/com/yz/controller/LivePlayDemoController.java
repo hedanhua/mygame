@@ -125,7 +125,12 @@ public class LivePlayDemoController {
      */ 
     private boolean syncStartStatus(String appID, String roomID, String anchorOpenId​) {
 	 JSONObject obj =  roundMap.get(roomID);
-	 Long roundId = obj.getLongValue("roundId");
+	 Long roundId = (long) 1;
+	 if(obj!=null) {
+	     roundId = obj.getLongValue("roundId");
+	 }else {
+	     obj = new JSONObject();
+	 }
 	 if(roundId == null) {
 	    roundId=(long) 1;
 	 }else {
