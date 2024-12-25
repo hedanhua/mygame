@@ -35,9 +35,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import redis.clients.jedis.Tuple;
 
-/**
- * 抖音云x弹幕玩法的服务端demo展示
- */
+
 @RestController
 @Slf4j
 public class LivePlayDemoController {
@@ -47,25 +45,13 @@ public class LivePlayDemoController {
 	
 	private Map<String ,JSONObject> roundMap = new HashMap();
 	
-
-
-    /**
-     * 开始玩法对局，玩法开始前调用
-     */
     @PostMapping(path = "/start_game")
     public JsonResponse start_game(HttpServletRequest httpRequest) {
-        // 开发者可以直接通过请求头获取直播间信息,无需自行通过token置换
-        // 应用id
         String appID = httpRequest.getHeader("X-TT-AppID");
-        // 直播间id
         String roomID = httpRequest.getHeader("X-Room-ID");
-        // 主播id
         String anchorOpenID = httpRequest.getHeader("X-Anchor-OpenID");
-        // 主播头像url
         String avatarUrl = httpRequest.getHeader("X-Avatar-Url");
-        // 主播昵称
         String nickName = httpRequest.getHeader("X-Nick-Name");
-
         log.info("appID: {}, roomID: {}, anchorOpenID: {}, avatarUrl: {}, nickName: {}", appID,
                 roomID, anchorOpenID, avatarUrl, nickName);
 
@@ -74,12 +60,10 @@ public class LivePlayDemoController {
         userObj.put("head", avatarUrl);
         userObj.put("name", nickName);
         redisUtils.set(RedisConstants.user_info+anchorOpenID, userObj);
-        // 调用弹幕玩法服务端API，开启直播间推送任务，开启后，开发者服务器会通过/live_data_callback接口 收到直播间玩法指令
         List<String> msgTypeList = new ArrayList<>();
         msgTypeList.add("live_like");
         msgTypeList.add("live_comment");
         msgTypeList.add("live_gift");
-      //  msgTypeList.add("live_fansclub");
 
         for (String msgType : msgTypeList) {
             boolean result = startLiveDataTask(appID, roomID, msgType);
@@ -118,11 +102,7 @@ public class LivePlayDemoController {
         response.success("开始玩法对局成功",extra_data);
         return response;
     }
-    
-    /**
-     *同步对局开始状态​ 
-     *
-     */ 
+
     private boolean syncStartStatus(String appID, String roomID, String anchorOpenId​) {
 	 JSONObject obj =  roundMap.get(roomID);
 	 Long roundId = (long) 1;
@@ -156,8 +136,8 @@ public class LivePlayDemoController {
 	        String url = "http://webcast.bytedance.com/api/gaming_con/round/sync_status";
 	        log.info("==============syncStartStatus,url={},body={}",url,body);
 	        Request request = new Request.Builder()
-	                .url(url) // 内网专线访问小玩法openAPI,无需https协议
-	                .addHeader("Content-Type", "application/json") // 无需维护access_token
+	                .url(url) 
+	                .addHeader("Content-Type", "application/json") 
 	                .post(
 	                        okhttp3.RequestBody.create(
 	                                MediaType.get("application/json; charset=utf-8"),
@@ -185,10 +165,6 @@ public class LivePlayDemoController {
     }
     
     
-    /**
-     *同步对局结束状态​ 
-     *
-     */ 
     private boolean syncEndStatus(String appID, String roomID, String anchorOpenId​, int result) {
 	JSONObject obj =  roundMap.get(roomID);
 	Long roundId = obj.getLongValue("roundId");
@@ -243,8 +219,8 @@ public class LivePlayDemoController {
 	        String url = "http://webcast.bytedance.com/api/gaming_con/round/sync_status";
 	        log.info("==============syncEndStatus,url={},body={}",url,body);
 	        Request request = new Request.Builder()
-	                .url(url) // 内网专线访问小玩法openAPI,无需https协议
-	                .addHeader("Content-Type", "application/json") // 无需维护access_token
+	                .url(url) 
+	                .addHeader("Content-Type", "application/json")
 	                .post(
 	                        okhttp3.RequestBody.create(
 	                                MediaType.get("application/json; charset=utf-8"),
@@ -270,8 +246,6 @@ public class LivePlayDemoController {
 	        }
 	        return true;
     }
-    
-    //上报阵营数据​
     public boolean uploadUserGroupInfo( String roomID, String openId,String groupId) {
 	JSONObject obj =  roundMap.get(roomID);
 	Long roundId = obj.getLongValue("roundId");
@@ -287,8 +261,8 @@ public class LivePlayDemoController {
 	        String url = "http://webcast.bytedance.com/api/gaming_con/round/upload_user_group_info";
 	        log.info("==============uploadUserGroupInfo,url={},body={}",url,body);
 	        Request request = new Request.Builder()
-	                .url(url) // 内网专线访问小玩法openAPI,无需https协议
-	                .addHeader("Content-Type", "application/json") // 无需维护access_token
+	                .url(url) 
+	                .addHeader("Content-Type", "application/json") 
 	                .post(
 	                        okhttp3.RequestBody.create(
 	                                MediaType.get("application/json; charset=utf-8"),
@@ -315,16 +289,7 @@ public class LivePlayDemoController {
     }
     
     
-    
-    /**
-     * startLiveDataTask: 开启推送任务：<a href="https://developer.open-douyin.com/docs/resource/zh-CN/interaction/develop/server/live/danmu#%E5%90%AF%E5%8A%A8%E4%BB%BB%E5%8A%A1">...</a>
-     *
-     * @param appID   小玩法appID
-     * @param roomID  直播间ID
-     * @param msgType 评论/点赞/礼物/粉丝团
-     */
     private boolean startLiveDataTask(String appID, String roomID, String msgType) {
-        // example: 通过java OkHttp库发起http请求,开发者可使用其余http访问形式
         OkHttpClient client = new OkHttpClient();
         String body = new JSONObject()
                 .fluentPut("roomid", roomID)
@@ -332,8 +297,8 @@ public class LivePlayDemoController {
                 .fluentPut("msg_type", msgType)
                 .toString();
         Request request = new Request.Builder()
-                .url("http://webcast.bytedance.com/api/live_data/task/start") // 内网专线访问小玩法openAPI,无需https协议
-                .addHeader("Content-Type", "application/json") // 无需维护access_token
+                .url("http://webcast.bytedance.com/api/live_data/task/start") 
+                .addHeader("Content-Type", "application/json") 
                 .post(
                         okhttp3.RequestBody.create(
                                 MediaType.get("application/json; charset=utf-8"),
@@ -379,9 +344,6 @@ public class LivePlayDemoController {
 	}
 
 
-    /**
-     * 获取阵营数据
-     */
     @PostMapping(path = "/getGroupData")
     public JsonResponse getGroupData(HttpServletRequest httpRequest, @RequestBody String body) {
 	    log.info("==========getGroupData,body={}",body);
@@ -423,9 +385,7 @@ public class LivePlayDemoController {
 	    return response;
     }
 
-    /**
-     * 结束玩法
-     */
+
     @PostMapping(path = "/finish_game")
     public JsonResponse finishGame(HttpServletRequest httpRequest, @RequestBody String body) {
 	String roomID = httpRequest.getHeader("X-Room-ID");
@@ -484,12 +444,6 @@ public class LivePlayDemoController {
     }
     
    
-
-    /**
-     * 通过抖音云服务接受直播间数据，内网专线加速+免域名备案
-     * 通过内网专线会自动携带X-Anchor-OpenID字段
-     * ref: <a href="https://developer.open-douyin.com/docs/resource/zh-CN/developer/tools/cloud/develop-guide/danmu-callback">...</a>
-     */
     @PostMapping(path = "/live_data_callback")
     public JsonResponse liveDataCallbackExample(
             @RequestHeader("X-Anchor-OpenID") String anchorOpenID,
@@ -596,12 +550,6 @@ public class LivePlayDemoController {
     }
 
 
-    //---------------- 抖音云websocket相关demo ---------------------
-
-    /**
-     * 抖音云websocket监听的回调函数,客户端建连/上行发消息都会走到该HTTP回调函数中
-     * ref: <a href="https://developer.open-douyin.com/docs/resource/zh-CN/developer/tools/cloud/develop-guide/websocket-guide/websocket#%E5%BB%BA%E8%BF%9E%E8%AF%B7%E6%B1%82">...</a>
-     */
     @RequestMapping(path = "/websocket_callback", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse websocketCallback(HttpServletRequest request) {
         String eventType = request.getHeader("x-tt-event-type");
@@ -612,7 +560,7 @@ public class LivePlayDemoController {
                 // 客户端断连
             }
             case "uplink": {
-                // 客户端上行发消息
+
             }
             default:
                 break;
@@ -622,12 +570,8 @@ public class LivePlayDemoController {
         return response;
     }
 
-    /**
-     * 使用抖音云websocket网关,将数据推送到主播端
-     * ref: <a href="https://developer.open-douyin.com/docs/resource/zh-CN/developer/tools/cloud/develop-guide/websocket-guide/websocket#%E4%B8%8B%E8%A1%8C%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81">...</a>
-     */
+
     private void pushDataToClientByDouyinCloudWebsocket(String anchorOpenId, String msgID, String msgType, String data) {
-        // 这里通过HTTP POST请求将数据推送给抖音云网关,进而抖音云网关推送给主播端
         OkHttpClient client = new OkHttpClient();
 
         Map<String, String> bodyMap = new HashMap<>();
@@ -662,7 +606,6 @@ public class LivePlayDemoController {
     
     
     private void pushDataToClient(String anchorOpenId, String bodyStr) {
-        // 这里通过HTTP POST请求将数据推送给抖音云网关,进而抖音云网关推送给主播端
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("http://ws-push.dycloud-api.service/ws/live_interaction/push_data")
