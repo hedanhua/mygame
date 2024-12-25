@@ -154,7 +154,7 @@ public class LivePlayDemoController {
 	                .fluentPut("​​status​​", 1)
 	                .toString();
 	        String url = "http://webcast.bytedance.com/api/gaming_con/round/sync_status";
-	        log.info("==============syncStartStatus,url={},body={}",body,url);
+	        log.info("==============syncStartStatus,url={},body={}",url,body);
 	        Request request = new Request.Builder()
 	                .url(url) // 内网专线访问小玩法openAPI,无需https协议
 	                .addHeader("Content-Type", "application/json") // 无需维护access_token
@@ -241,7 +241,7 @@ public class LivePlayDemoController {
 	                .fluentPut("​group_result_list​​", overData)
 	                .toString();
 	        String url = "http://webcast.bytedance.com/api/gaming_con/round/sync_status";
-	        log.info("==============syncEndStatus,url={},body={}",body,url);
+	        log.info("==============syncEndStatus,url={},body={}",url,body);
 	        Request request = new Request.Builder()
 	                .url(url) // 内网专线访问小玩法openAPI,无需https协议
 	                .addHeader("Content-Type", "application/json") // 无需维护access_token
@@ -284,8 +284,10 @@ public class LivePlayDemoController {
 	                .fluentPut("​​round_id​​", roundId)
 	                .fluentPut("​​group_id​​", groupId)
 	                .toString();
+	        String url = "http://webcast.bytedance.com/api/gaming_con/round/upload_user_group_info";
+	        log.info("==============uploadUserGroupInfo,url={},body={}",url,body);
 	        Request request = new Request.Builder()
-	                .url("​https://webcast.bytedance.com/api/gaming_con/round/upload_user_group_info") // 内网专线访问小玩法openAPI,无需https协议
+	                .url(url) // 内网专线访问小玩法openAPI,无需https协议
 	                .addHeader("Content-Type", "application/json") // 无需维护access_token
 	                .post(
 	                        okhttp3.RequestBody.create(
